@@ -90,14 +90,10 @@ void update_inventory() {
             scanf("%d", &price);
             printf("Enter the quantity: ");
             scanf("%d", &quantity);
-
-            // AWK Command for Adding a New Product
+            
             char add_command[1024];
             snprintf(add_command, sizeof(add_command),
-                     "awk -v prod=\"%s\" -v price=%d -v quantity=%d '"
-                     "BEGIN { printf \"%-15s %-10s %-10s\\n\", \"Name\", \"Price\", \"Quantity\" } "
-                     "{ print $0 } "
-                     "END { printf \"%-15s %-10d %-10d\\n\", prod, price, quantity }' inventory.txt > temp.txt && mv temp.txt inventory.txt",
+                     "awk -v choice=1 -v prod=\"%s\" -v price=%d -v quantity=%d -f update.awk inventory.txt > temp.txt && mv temp.txt inventory.txt",
                      product_name, price, quantity);
 
             if (system(add_command) != 0) {
@@ -115,11 +111,9 @@ void update_inventory() {
             printf("Enter the new quantity: ");
             scanf("%d", &quantity);
 
-            // AWK Command for Updating a Product
             char update_command[1024];
             snprintf(update_command, sizeof(update_command),
-                     "awk -v prod=\"%s\" -v price=%d -v quantity=%d '"
-                     "{ if ($1 == prod) { $2 = price; $3 = quantity } print $0 }' inventory.txt > temp.txt && mv temp.txt inventory.txt",
+                     "awk -v choice=2 -v prod=\"%s\" -v price=%d -v quantity=%d -f update.awk inventory.txt > temp.txt && mv temp.txt inventory.txt",
                      product_name, price, quantity);
 
             if (system(update_command) != 0) {
@@ -133,10 +127,9 @@ void update_inventory() {
             printf("Enter the product name to remove: ");
             scanf("%49s", product_name);
 
-            // AWK Command for Removing a Product
             char remove_command[1024];
             snprintf(remove_command, sizeof(remove_command),
-                     "awk -v prod=\"%s\" '{ if ($1 != prod) print $0 }' inventory.txt > temp.txt && mv temp.txt inventory.txt",
+                     "awk -v choice=3 -v prod=\"%s\" -f update.awk inventory.txt > temp.txt && mv temp.txt inventory.txt",
                      product_name);
 
             if (system(remove_command) != 0) {
@@ -151,3 +144,4 @@ void update_inventory() {
             break;
     }
 }
+

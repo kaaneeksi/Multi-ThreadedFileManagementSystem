@@ -1,4 +1,3 @@
-Name            Price      Quantity  
-Phone           7500       10
-Tablet          6000       8
-Pencil          400        20        
+Phone           7500       10        
+Tablet          6000       8         
+Pencil          4000       3         
